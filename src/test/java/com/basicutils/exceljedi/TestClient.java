@@ -8,8 +8,7 @@ import com.basicutils.exceljedi.SimpleExcelTemplate;
 
 public class TestClient {
 
-	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		
 		List<Employee> emps = new ArrayList<>();
 		Employee e1 = new Employee();
@@ -19,6 +18,6 @@ public class TestClient {
 		emps.add(e1);
 		
 		ExcelTemplate<Employee> t = new SimpleExcelTemplate<>();
-		t.writeExcel(emps, "C:\\temp\\test.xlsx");
+		t.writeExcel(emps, "C:\\temp\\test.xlsx",false);
 	}
 }
