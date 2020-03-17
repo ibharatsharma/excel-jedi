@@ -10,7 +10,7 @@
 		</layout>
 	</appender>
 
-	<logger name="com.bharat" level="debug" additivity="false">
+	<logger name="com.basicutils" level="debug" additivity="false">
 		<appender-ref ref="CONSOLE" />
 	</logger>
 

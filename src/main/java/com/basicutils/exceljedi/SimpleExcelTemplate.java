@@ -9,11 +9,9 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.streaming.SXSSFRow;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,16 +24,18 @@ import org.slf4j.LoggerFactory;
 public class SimpleExcelTemplate<T> extends ExcelTemplate<T> {
 
 	private static Logger logger = LoggerFactory.getLogger(SimpleExcelTemplate.class);
-
+	
 	@Override
 	protected void writeFile(List<T> list, Metadata md) throws ExcelException {
 
-		logger.info("writing file. md={}", md);
-		XSSFWorkbook workbook = new XSSFWorkbook();
+		logger.info("Writing file. md={}", md);
+		SXSSFWorkbook workbook = new SXSSFWorkbook(SXSSFWorkbook.DEFAULT_WINDOW_SIZE); // 100 rows in memory
+		
 		try {
-			XSSFSheet sheet = workbook.createSheet(md.getSheetName());
+			
+			SXSSFSheet sheet = workbook.createSheet(md.getSheetName());
 
-			XSSFRow headers = sheet.createRow(0);
+			SXSSFRow headers = sheet.createRow(0);
 			int headerColIndex = 0;
 			for (Metadata.Col col : md.getColumns()) {
 				headers.createCell(headerColIndex++).setCellValue(col.getColumnHeaderName());
@@ -44,14 +44,11 @@ public class SimpleExcelTemplate<T> extends ExcelTemplate<T> {
 			int rowNum = 1;
 			for (Object object : list) {
 
-				XSSFRow row = sheet.createRow(rowNum++);
+				SXSSFRow row = sheet.createRow(rowNum++);
 
 				int coluNum = 0;
 				for (Metadata.Col col : md.getColumns()) {
 					Cell cell = row.createCell(coluNum);
-
-					CellStyle style = workbook.createCellStyle();
-					style.setFillBackgroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
 
 					Field field = object.getClass().getDeclaredField(col.getFieldName());
 					field.setAccessible(true);
