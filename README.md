@@ -3,9 +3,13 @@ Excel Jedi is a basic utility to:
 1. Write an ArrayList to an excel file
 1. Read an excel file into a list of Java object
 
+# Features
+
 # TODO:
-1. Check if file exists. If Yes, then should we delete old file? or give user a flag in the writer API to decide that?
-1. Extend API to provide styling customisations
+- [ ] Check if file exists. If Yes, then should we delete old file? or give user a flag in the writer API to decide that?
+- [ ] Extend API to provide styling customisations
+- [ ] @Ignore annoation to ignore fields that should not be written to Excel file
+- [ ] Arraylist has more elements than maximum capacity of excel sheet
 
 # Limitations
 
