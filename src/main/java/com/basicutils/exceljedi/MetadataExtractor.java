@@ -8,8 +8,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bharat.exceljedi.annotations.Column;
+import com.bharat.exceljedi.annotations.Ignore;
 import com.bharat.exceljedi.annotations.Sheet;
 
+/**
+ * Extracts metadata from a given pojo
+ * 
+ * @author Bharat
+ *
+ * @param <T>
+ */
 public class MetadataExtractor<T> {
 
 	private static Logger logger = LoggerFactory.getLogger(MetadataExtractor.class);
@@ -53,17 +61,29 @@ public class MetadataExtractor<T> {
 			sheetName = t.getClass().getSimpleName();
 		}
 		// sheet name cannot be more than 32 chars
-		if(sheetName.length() > 32) {
+		if (sheetName.length() > 32) {
 			sheetName = sheetName.substring(0, 31);
 		}
 		md.setSheetName(sheetName);
 	}
-
+	
+	/**
+	 * Determines column names for headers
+	 * 
+	 * @param t
+	 * @throws Exception
+	 */
 	private void extractColumnNames(T t) throws Exception {
 		logger.info("Extracting column names from {}", t.toString());
 		Field[] fields = t.getClass().getDeclaredFields();
-
+		
 		for (Field f : fields) {
+			
+			/* skip ignored field */
+			if(isIgnoredField(f)) {
+				continue; 
+			}
+			
 			Column c = f.getAnnotation(Column.class);
 
 			if (c == null) {
@@ -81,5 +101,20 @@ public class MetadataExtractor<T> {
 			}
 		}
 
+	}
+
+	/**
+	 * Check if {@code @Ignore} annotation is present of given field
+	 * @param field
+	 * @return
+	 */
+	private boolean isIgnoredField(Field field) {
+
+		boolean isIgnored = false;
+		Ignore ignore = field.getAnnotation(Ignore.class);
+		if (ignore != null) {
+			isIgnored = true;
+		}
+		return isIgnored;
 	}
 }

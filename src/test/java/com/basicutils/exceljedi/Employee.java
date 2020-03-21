@@ -1,9 +1,10 @@
 package com.basicutils.exceljedi;
 
 import com.bharat.exceljedi.annotations.Column;
+import com.bharat.exceljedi.annotations.Ignore;
 import com.bharat.exceljedi.annotations.Sheet;
 
-//@Sheet(name = "Employees")
+@Sheet(name = "Employees")
 public class Employee {
 
 	@Column(name = "Fullname")
@@ -11,6 +12,8 @@ public class Employee {
 	private int age;
 	@Column(name = "Monthly Salary")
 	private Double salary;
+	@Ignore
+	private String address;
 
 	public String getName() {
 		return name;
@@ -35,10 +38,18 @@ public class Employee {
 	public void setSalary(Double salary) {
 		this.salary = salary;
 	}
+	
+	public String getAddress() {
+		return address;
+	}
+	
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	@Override
 	public String toString() {
-		return "Employee [name=" + name + ", age=" + age + "]";
+		return "Employee [name=" + name + ", age=" + age + ", salary=" + salary + ", address=" + address + "]";
 	}
-
+	
 }

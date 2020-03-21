@@ -37,6 +37,7 @@ public class TestClient {
 			e1.setName(RandomStringUtils.random(40, true, false));
 			e1.setAge(new Random().nextInt(60));
 			e1.setSalary(ThreadLocalRandom.current().nextDouble(100, 10000));
+			e1.setAddress(RandomStringUtils.random(40, true, false));
 			
 			emps.add(e1);
 			int next = iterator.nextInt();
